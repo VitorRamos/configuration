@@ -781,11 +781,11 @@ function hotkeys:init(args)
 		},
 
 		{
-			{ env.mod,  "Control"}, "Right", function () awful.tag.incmwfact( 0.05) end,
+			{ env.mod,  "Control"}, "Down", function () awful.tag.incmwfact( 0.05) end,
 			{ description = "increase master width factor", group = "layout"}
 		},
 		{
-			{ env.mod, "Control"}, "Left",  function () awful.tag.incmwfact(-0.05)        end, 
+			{ env.mod, "Control"}, "Up",  function () awful.tag.incmwfact(-0.05)        end, 
 			{description = "decrease master width factor", group = "layout"}
 		},
 		{
@@ -828,7 +828,7 @@ function hotkeys:init(args)
 			{ description = "Toggle fullscreen", group = "Client keys" }
 		},
 		{
-			{ env.mod }, "F4", function(c) c:kill() end,
+			{ env.mod, "Shift" }, "c", function(c) c:kill() end,
 			{ description = "Close", group = "Client keys" }
 		},
 		{
@@ -862,10 +862,19 @@ function hotkeys:init(args)
 			tag_numkey(i,    { env.mod },                     function(t) t:view_only()               end),
 			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)     end),
 			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) end),
-			client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)  end)
+			-- client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)  end)
+			client_numkey(i, { env.mod, "Control", "Shift" },
+					function(tag)
+						local screen = awful.screen.focused()
+						awful.tag.selected():swap(tag)
+						local aux= awful.tag.selected().name
+						awful.tag.selected().name= tag.name
+						tag.name= aux
+					end
+				)
 		)
 	end
-
+	
 	-- make fake keys with description special for key helper widget
 	local numkeys = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
 
