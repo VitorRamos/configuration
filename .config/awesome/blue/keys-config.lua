@@ -181,19 +181,19 @@ function hotkeys:init(args)
 	------------------------------------------------------------
 	local menu_keys_move = {
 		{
-			{ env.mod }, "Down", redflat.menu.action.down,
+			{  }, "Down", redflat.menu.action.down,
 			{ description = "Select next item", group = "Navigation" }
 		},
 		{
-			{ env.mod }, "Up", redflat.menu.action.up,
+			{  }, "Up", redflat.menu.action.up,
 			{ description = "Select previous item", group = "Navigation" }
 		},
 		{
-			{ env.mod }, "Left", redflat.menu.action.back,
+			{  }, "Left", redflat.menu.action.back,
 			{ description = "Go back", group = "Navigation" }
 		},
 		{
-			{ env.mod }, "Right", redflat.menu.action.enter,
+			{  }, "Right", redflat.menu.action.enter,
 			{ description = "Open submenu", group = "Navigation" }
 		},
 	}
@@ -334,19 +334,19 @@ function hotkeys:init(args)
 	-- shared layout keys
 	local layout_tile = {
 		{
-			{ env.mod }, "l", function () awful.tag.incmwfact( 0.05) end,
+			{ env.mod }, "left", function () awful.tag.incmwfact( 0.05) end,
 			{ description = "Increase master width factor", group = "Layout" }
 		},
 		{
-			{ env.mod }, "j", function () awful.tag.incmwfact(-0.05) end,
+			{ env.mod }, "right", function () awful.tag.incmwfact(-0.05) end,
 			{ description = "Decrease master width factor", group = "Layout" }
 		},
 		{
-			{ env.mod }, "i", function () awful.client.incwfact( 0.05) end,
+			{ env.mod }, "up", function () awful.client.incwfact( 0.05) end,
 			{ description = "Increase window factor of a client", group = "Layout" }
 		},
 		{
-			{ env.mod }, "k", function () awful.client.incwfact(-0.05) end,
+			{ env.mod }, "down", function () awful.client.incwfact(-0.05) end,
 			{ description = "Decrease window factor of a client", group = "Layout" }
 		},
 		{
@@ -905,7 +905,7 @@ function hotkeys:init(args)
 	--------------------------------------------------------------------------------
 	self.mouse.client = awful.util.table.join(
 		awful.button({}, 1, function (c) client.focus = c; c:raise() end),
-		--awful.button({}, 2, awful.mouse.client.move),
+		awful.button({env.mod}, 1, awful.mouse.client.move),
 		awful.button({ env.mod }, 3, awful.mouse.client.resize)
 		-- awful.button({}, 8, function(c) c:kill() end)
 	)
