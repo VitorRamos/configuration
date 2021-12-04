@@ -1,0 +1,20 @@
+#!/bin/bash
+setxkbmap -option 'numpad:microsoft'
+xmodmap -e "keycode 81 = Prior"
+xmodmap -e "keycode 89 = Next"
+xmodmap -e "keycode 79 = Home"
+xmodmap -e "keycode 87 = End"
+
+xinput set-prop 'SynPS/2 Synaptics TouchPad' 'Synaptics Scrolling Distance' -111, -111
+# gsettings set org.gnome.desktop.peripherals.mouse accel-profile flat
+# gsettings set org.gnome.desktop.peripherals.mouse speed 0
+# synclient MinSpeed=3
+# synclient AccelFactor=0
+#redshift -l 50.47:3.95
+#xinput set-prop 13 354 -35, 35
+
+#xrandr --auto --output HDMI-1-0 --mode 1920x1080 --right-of eDP-1
+xrandr --auto --output HDMI-0 --mode 1920x1080 --right-of eDP-1-1
+redshift -O 4500k
+
+
