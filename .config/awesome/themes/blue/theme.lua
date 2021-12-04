@@ -66,7 +66,7 @@ theme.fonts = {
 }
 
 theme.cairo_fonts = {
-	tag         = { font = "Play", size = 14, face = 1 }, -- tag widget font
+	tag         = { font = "Play", size = 12, face = 1 }, -- tag widget font
 	appswitcher = { font = "Play", size = 20, face = 1 }, -- appswitcher widget font
 	navigator   = {
 		title = { font = "Play", size = 28, face = 1, slant = 0 }, -- window navigation title font
@@ -295,9 +295,9 @@ theme.gauge.monitor.double = {
 -- Tag
 ------------------------------------------------------------
 theme.gauge.tag.blue = {
-	width    = 50,
+	width    = 70,
 	font     = theme.cairo_fonts.tag,
-	point    = { width = 50, height = 3, gap = 25, dx = 5 },
+	point    = { width = 70, height = 3, gap = 25, dx = 5 },
 	text_gap = 20,
 	color    = theme.color
 }

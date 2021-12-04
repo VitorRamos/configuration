@@ -167,14 +167,14 @@ sysmon.icon.cpuram = redflat.util.table.check(beautiful, "icon.widget.monitor")
 
 -- battery
 sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
+	{ func = redflat.system.pformatted.bat(25), arg = "BAT1" },
 	{ timeout = 60, widget = redflat.gauge.icon.single, monitor = { is_vertical = true, icon = sysmon.icon.battery } }
 )
 
 -- network speed
 sysmon.widget.network = redflat.widget.net(
 	{
-		interface = "wlp6s0",
+		interface = "wlo1",
 		alert = { up = 5 * 1024^2, down = 5 * 1024^2 },
 		speed = { up = 6 * 1024^2, down = 6 * 1024^2 },
 		autoscale = false
@@ -219,7 +219,7 @@ awful.screen.connect_for_each_screen(
 		env.wallpaper(s)
 
 		-- tags
-		awful.tag({ "Main", "Edit", "Term", "Read", "Free" }, s, { al[4], al[1], al[1], al[4], al[4] })
+		awful.tag({ "Main", "W1", "W3", "W4", "W5", "W6", "W7", "W8", "W9" }, s, { al[4], al[1], al[1], al[1], al[1], al[1], al[1], al[1] })
 
 		-- layoutbox widget
 		layoutbox[s] = redflat.widget.layoutbox({ screen = s })

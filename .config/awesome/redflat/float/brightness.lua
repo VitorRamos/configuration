@@ -43,11 +43,17 @@ end
 function brightness:change_with_xbacklight(args)
 	local args = redutil.table.merge(defaults, args or {})
 
+	-- we either use acpi event video/brightnessup or light
 	if args.down then
-		awful.spawn.easy_async("light -U " .. args.step, self.info_with_xbacklight)
+		awful.spawn.easy_async("light -U " .. 0, self.info_with_xbacklight)
 	else
-		awful.spawn.easy_async("light -A " .. args.step, self.info_with_xbacklight)
+		awful.spawn.easy_async("light -A " .. 0, self.info_with_xbacklight)
 	end
+	-- if args.down then
+	-- 	awful.spawn.easy_async("light -U " .. args.step, self.info_with_xbacklight)
+	-- else
+	-- 	awful.spawn.easy_async("light -A " .. args.step, self.info_with_xbacklight)
+	-- end
 end
 
 -- Change with dbus-send and gnome/unity settings daemon

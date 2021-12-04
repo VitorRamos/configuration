@@ -22,7 +22,7 @@ local net = { mt = {} }
 local default_args = {
 	speed     = { up = 10*1024, down = 10*1024 },
 	autoscale = true,
-	interface = "wlp6s0"
+	interface = "wlo1"
 }
 
 -- Generate default theme vars

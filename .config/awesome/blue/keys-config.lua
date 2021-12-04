@@ -5,7 +5,10 @@
 -- Grab environment
 local table = table
 local awful = require("awful")
+local wibox = require("wibox")
 local redflat = require("redflat")
+local redutil = require("redflat.util")
+local decoration = require("redflat.float.decoration")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -23,6 +26,7 @@ local grid = redflat.layout.grid
 local map = redflat.layout.map
 local redtitle = redflat.titlebar
 local qlaunch = redflat.float.qlaunch
+
 
 -- Key support functions
 -----------------------------------------------------------------------------------------------------------------------
@@ -593,6 +597,39 @@ function hotkeys:init(args)
 			{ description = "Window control mode", group = "Main" }
 		},
 		{
+			{ env.mod,"Shift" }, "F2", 
+				function ()
+					local atextbox = wibox.widget.textbox()
+					local style = {
+						geometry     = { width = 620, height = 120 },
+						margin       = { 20, 20, 40, 40 },
+						border_width = 2,
+						color        = { border = "#575757", wibox = "#202020" }
+					}
+					local wibox_ = wibox({
+						ontop        = true,
+						bg           = style.color.wibox,
+						border_width = style.border_width,
+						border_color = style.color.border
+					})
+					local decorated_widget = decoration.textfield(atextbox, style.field)
+					wibox_:set_widget(wibox.container.margin(decorated_widget, 
+														unpack(style.margin)))
+														wibox_:geometry(style.geometry)
+					redutil.placement.centered(wibox_, nil, mouse.screen.workarea)
+					wibox_.visible = true
+					awful.prompt.run {
+						prompt       = "rename current tag: ",
+						bg_cursor    = '#ff0000',
+						text         = awful.tag.selected().name,
+						textbox      = atextbox,
+						exe_callback = function (s) awful.tag.selected().name = s end,
+						done_callback = function () wibox_.visible = false end,
+					}
+				end,
+			{ description = "Rename tag", group = "awesome" }
+		},
+		{
 			{ env.mod, "Shift" }, "r", awesome.restart,
 			{ description = "Reload awesome", group = "Main" }
 		},
@@ -609,7 +646,15 @@ function hotkeys:init(args)
 			{ env.mod, "Mod1" }, "space", function() awful.spawn("clipflap --show") end,
 			{ description = "Clipboard manager", group = "Applications" }
 		},
-
+		-- Screen
+		{
+			{ env.mod, "Control" }, "Right", function() awful.screen.focus_relative(1) end,
+			{ description = "focus the next screen", group = "screen" }
+		},
+		{
+			{ env.mod, "Control" }, "Left", function() awful.screen.focus_relative(-1) end,
+			{ description = "focus the previous screen", group = "screen" }
+		},
 		{
 			{ env.mod }, "Right", focus_switch_byd("right"),
 			{ description = "Go to right client", group = "Client focus" }
@@ -712,11 +757,11 @@ function hotkeys:init(args)
 		},
 
 		{
-			{}, "XF86MonBrightnessUp", function() brightness({ step = 2 }) end,
+			{}, "XF86MonBrightnessUp", function() brightness({ step = 1 }) end,
 			{ description = "Increase brightness", group = "Brightness control" }
 		},
 		{
-			{}, "XF86MonBrightnessDown", function() brightness({ step = 2, down = true }) end,
+			{}, "XF86MonBrightnessDown", function() brightness({ step = 1, down = true }) end,
 			{ description = "Reduce brightness", group = "Brightness control" }
 		},
 
@@ -768,6 +813,26 @@ function hotkeys:init(args)
 		},
 
 		{
+			{}, "Print", function() redflat.screenshot:scrot_full() end,
+          	{ description = "Take a screenshot of entire screen", group = "screenshot"}
+		},
+
+		{
+			{ env.mod }, "Print", function() redflat.screenshot:scrot_selection() end,
+          	{ description = "Take a screenshot of selection", group = "screenshot"}
+		},
+
+		{
+			{ "Shift" }, "Print", function() redflat.screenshot:scrot_window() end,
+          	{ description = "Take a screenshot of focused window", group = "screenshot"}
+		},
+
+		{
+			{ "Ctrl" }, "Print", function() redflat.screenshot:scrot_delay() end,
+          	{ description = "Take a screenshot of delay", group = "screenshot"}
+		},
+
+		{
 			{ env.mod }, "y", function() laybox:toggle_menu(mouse.screen.selected_tag) end,
 			{ description = "Show layout menu", group = "Layouts" }
 		},
@@ -797,6 +862,16 @@ function hotkeys:init(args)
 			{description = "decrease the number of master clients", group = "layout"}
 		},
 		
+		-- Screen
+		-- {
+		-- 	{ env.mod, "Control", "Shift" }, "Right", function () awful.client:move_to_screen(1) end,
+		-- 	{ description = "move to screen", group = "client" }
+		-- },
+		-- {
+		-- 	{ env.mod, "Control", "Shift" }, "Left", function () awful.client:move_to_screen(-1) end,
+		-- 	{ description = "move to screen", group = "client" }
+		-- },
+
 		{
 			{ env.mod, "Shift"   }, "Right", function () awful.client.swap.bydirection("right") end,
 			{description = "swap with right client", group = "client"}
@@ -846,7 +921,16 @@ function hotkeys:init(args)
 		{
 			{ env.mod }, "m", function(c) c.maximized = not c.maximized; c:raise() end,
 			{ description = "Maximize", group = "Client keys" }
-		}
+		},
+		-- Screen
+		{
+			{ env.mod, "Control", "Shift" }, "Right", function (c) c:move_to_screen(1) end,
+			{ description = "move to screen", group = "client" }
+		},
+		{
+			{ env.mod, "Control", "Shift" }, "Left", function (c) c:move_to_screen(-1) end,
+			{ description = "move to screen", group = "client" }
+		},
 	}
 
 	self.keys.root = redflat.util.key.build(self.raw.root)
@@ -861,14 +945,21 @@ function hotkeys:init(args)
 			self.keys.root,
 			tag_numkey(i,    { env.mod },                     function(t) t:view_only()               end),
 			tag_numkey(i,    { env.mod, "Control" },          function(t) awful.tag.viewtoggle(t)     end),
-			client_numkey(i, { env.mod, "Shift" },            function(t) client.focus:move_to_tag(t) end),
+			client_numkey(i, { env.mod, "Shift" },            
+			function(t)
+				client.focus:move_to_tag(t) 
+			end),
 			-- client_numkey(i, { env.mod, "Control", "Shift" }, function(t) client.focus:toggle_tag(t)  end)
 			client_numkey(i, { env.mod, "Control", "Shift" },
 					function(tag)
+						local aux = tag.name
+						tag.name = awful.tag.selected().name
+						-- awful.tag.selected().name = aux
+
 						local screen = awful.screen.focused()
 						awful.tag.selected():swap(tag)
-						local aux= awful.tag.selected().name
-						awful.tag.selected().name= tag.name
+						-- local aux= awful.tag.selected().name
+						-- awful.tag.selected().name= tag.name
 						tag.name= aux
 					end
 				)

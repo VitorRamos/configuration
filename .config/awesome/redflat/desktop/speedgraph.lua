@@ -44,7 +44,7 @@ local default_args = {
 	autoscale = true,
 	label = "NETWORK",
 	timeout = 5,
-	interface = "wlp6s0",
+	interface = "wlo1",
 	meter_function = system.net_speed
 }
 

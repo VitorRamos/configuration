@@ -375,8 +375,7 @@ end
 ------------------------------------------------------------
 function system.thermal.nvprime()
 	local temp = 0
-	local nvidia_on = string.find(redutil.read.output("prime-select query"), "nvidia")
-
+	local nvidia_on = string.find(redutil.read.output("prime-select query"), "demand")
 	if nvidia_on ~= nil then
 		local t = string.match(
 			redutil.read.output("nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader"),

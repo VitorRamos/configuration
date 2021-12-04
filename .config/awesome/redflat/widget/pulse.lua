@@ -46,7 +46,7 @@ end
 
 local change_volume_default_args = {
 	down        = false,
-	step        = 655 * 5,
+	step        = 655 * 1,
 	show_notify = false
 }
 

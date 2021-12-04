@@ -33,7 +33,7 @@ function desktop:init(args)
 	local netspeed = { geometry = wgeometry(grid, places.netspeed, workarea) }
 
 	netspeed.args = {
-		interface    = "wlp6s0",
+		interface    = "wlo1",
 		maxspeed     = { up = 6*1024^2, down = 6*1024^2 },
 		crit         = { up = 6*1024^2, down = 6*1024^2 },
 		timeout      = 2,
@@ -76,7 +76,7 @@ function desktop:init(args)
 	local cpumem = { geometry = wgeometry(grid, places.cpumem, workarea) }
 
 	cpumem.args = {
-		corners = { num = 4, maxm = 100, crit = 90 },
+		corners = { num = 8, maxm = 100, crit = 90 },
 		lines   = { { maxm = 100, crit = 80 }, { maxm = 100, crit = 80 } },
 		meter   = { args = cpu_storage },
 		timeout = 2
@@ -125,11 +125,12 @@ function desktop:init(args)
 
 	thermal.args = {
 		sensors = {
-			{ meter_function = system.thermal.sensors, args = "'Package id 0'", maxm = 100, crit = 75 }
+			{ meter_function = system.thermal.sensors, args = "'Package id 0'", maxm = 100, crit = 75 },
+			{ meter_function = system.thermal.nvprime, maxm = 99, crit = 87 }
 			-- { meter_function = system.thermal.hddtemp, args = { disk = "/dev/sda" }, maxm = 60, crit = 45 },
 			-- { meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
 		},
-		names   = { "cpu" }, --, "hdd", "gpu" },
+		names   = { "cpu", "gpu" }, --, "hdd", "gpu" },
 		timeout = 5
 	}
 

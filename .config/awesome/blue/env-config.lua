@@ -24,6 +24,7 @@ function env:init(args)
 
 	-- environment vars
 	self.terminal = args.terminal or "x-terminal-emulator"
+	-- self.terminal = args.terminal or "alacritty"
 	self.mod = args.mod or "Mod4"
 	self.fm = args.fm or "nautilus"
 	self.mail = args.mail or "thunderbird"
