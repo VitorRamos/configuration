@@ -406,6 +406,23 @@ function dfparser.program_list(style)
 	return prog_list
 end
 
+-------------------
+function dfparser.tag_list(style)
+
+	local style = redutil.table.merge(default_style(), style or {})
+	local screen_tags = {}
+
+	for i, v in ipairs(root.tags()) do
+		v.global_idx = i
+		v.Comment = "Display" .. v.screen.index
+		v.Name = v.name .. " " .. v.index
+		table.insert(screen_tags, v)
+	end
+
+	-- return client.focus.screen.tags
+	return screen_tags
+end
+
 -- End
 -----------------------------------------------------------------------------------------------------------------------
 return dfparser

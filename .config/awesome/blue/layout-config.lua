@@ -5,6 +5,7 @@
 -- Grab environment
 local awful = require("awful")
 local redflat = require("redflat")
+-- local leaved = require("awesome-leaved")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -20,6 +21,10 @@ function layouts:init()
 		awful.layout.suit.tile.bottom,
 		awful.layout.suit.tile.right,
 		awful.layout.suit.fair,
+		-- leaved.layout.suit.tile.right,
+		-- leaved.layout.suit.tile.left,
+		-- leaved.layout.suit.tile.bottom,
+		-- leaved.layout.suit.tile.top,
 		awful.layout.suit.floating,
 		-- redflat.layout.grid,
 		-- redflat.layout.map

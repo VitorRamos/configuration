@@ -9,6 +9,7 @@ local wibox = require("wibox")
 local redflat = require("redflat")
 local redutil = require("redflat.util")
 local decoration = require("redflat.float.decoration")
+-- local leaved = require("awesome-leaved")
 
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
@@ -16,9 +17,11 @@ local hotkeys = { mouse = {}, raw = {}, keys = {}, fake = {} }
 
 -- key aliases
 local apprunner = redflat.float.apprunner
+local tagrunner = redflat.float.tagrunner
 local appswitcher = redflat.float.appswitcher
 local current = redflat.widget.tasklist.filter.currenttags
 local allscr = redflat.widget.tasklist.filter.allscreen
+local alltags = redflat.widget.tasklist.filter.alltags
 local laybox = redflat.widget.layoutbox
 local redtip = redflat.float.hotkeys
 local laycom = redflat.layout.common
@@ -623,7 +626,10 @@ function hotkeys:init(args)
 						bg_cursor    = '#ff0000',
 						text         = awful.tag.selected().name,
 						textbox      = atextbox,
-						exe_callback = function (s) awful.tag.selected().name = s end,
+						exe_callback = function (s) 
+							awful.tag.selected().name = s 
+							awful.tag.selected().Name = s .. " " .. awful.tag.selected().index
+						end,
 						done_callback = function () wibox_.visible = false end,
 					}
 				end,
@@ -702,6 +708,10 @@ function hotkeys:init(args)
 			{ description = "Application launcher", group = "Widgets" }
 		},
 		{
+			{ env.mod }, "'", function() tagrunner:show() end,
+			{ description = "Tag launcher", group = "Widgets" }
+		},
+		{
 			{ env.mod }, "p", function() redflat.float.prompt:run() end,
 			{ description = "Show the prompt box", group = "Widgets" }
 		},
@@ -764,6 +774,27 @@ function hotkeys:init(args)
 			{}, "XF86MonBrightnessDown", function() brightness({ step = 1, down = true }) end,
 			{ description = "Reduce brightness", group = "Brightness control" }
 		},
+
+		-- {
+		-- 	{ env.mod }, "o", function(c) leaved.keys.shiftOrder(c) end,
+		-- 	{ description = "Switch the orientation of the current container", group = "leaved" }
+		-- },
+		-- {
+		-- 	{ env.mod, "Shift" }, "h", function(c) leaved.keys.splitH(c) end,
+		-- 	{ description = "Split next horizontal", group = "leaved" }
+		-- },
+		-- {
+		-- 	{ env.mod, "Shift" }, "v", function(c) leaved.keys.splitV(c) end,
+		-- 	{ description = "Split next vertical", group = "leaved" }
+		-- },
+		-- {
+		-- 	{ env.mod, "Shift" }, "o", function(c) leaved.keys.splitOpp(c) end,
+		-- 	{ description = "Split in opposing direction", group = "leaved" }
+		-- },
+		-- {
+		-- 	{ env.mod, "Shift" }, "t", function(c) leaved.keys.shiftStyle(c) end,
+		-- 	{ description = "Switch between no tabs, tabs and stack", group = "leaved" }
+		-- },
 
 		{
 			{ env.mod }, "t", function() redtitle.toggle(client.focus) end,
@@ -960,7 +991,9 @@ function hotkeys:init(args)
 						awful.tag.selected():swap(tag)
 						-- local aux= awful.tag.selected().name
 						-- awful.tag.selected().name= tag.name
-						tag.name= aux
+						tag.name = aux
+						tag.Name = tag.name .. " " .. tag.index
+						awful.tag.selected().Name = awful.tag.selected().name .. " " .. awful.tag.selected().index
 					end
 				)
 		)

@@ -309,8 +309,8 @@ function appswitcher:init()
 					tr = {(psize.width - sc * cg.width) / 2, 0}
 				end
 			else
-				-- surface = gears.surface(icon_db[string.lower(c.class)] or c.icon)
-				surface, pixbuf = get_icon_visual(icon_db, c, self.svgsize)
+				surface = gears.surface(icon_db[string.lower(c.class)] or c.icon)
+				-- surface, pixbuf = get_icon_visual(icon_db, c, self.svgsize)
 
 				-- sc = style.icon_size / surface.width * iscf
 				sc = style.icon_size / (surface and surface.width or pixbuf.width) * iscf

@@ -9,7 +9,7 @@ local theme = {}
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
 theme.color = {
-	main      = "#064E71",
+	main      = "#ff0000", --#064E71
 	gray      = "#575757",
 	bg        = "#161616",
 	bg_second = "#181818",
@@ -572,6 +572,24 @@ theme.float.apprunner = {
 	color         = theme.color
 }
 
+-- Tag runner
+------------------------------------------------------------
+
+theme.float.tagrunner = {
+	itemnum       = 6,
+	geometry      = { width = 620, height = 480 },
+	border_margin = { 24, 24, 24, 24 },
+	icon_margin   = { 8, 16, 0, 0 },
+	title_height  = 48,
+	prompt_height = 35,
+	title_icon    = theme.path .. "/widget/search.svg",
+	keytip        = { geometry = { width = 400, height = 250 } },
+	border_width  = 0,
+	name_font     = theme.fonts.title,
+	comment_font  = theme.fonts.main,
+	color         = theme.color
+}
+
 -- Application switcher
 ------------------------------------------------------------
 theme.float.appswitcher = {
@@ -758,6 +776,11 @@ theme.font = theme.fonts.main
 
 -- misc
 theme.enable_spawn_cursor = false
+
+theme.layout_leavedright = "~/.config/awesome/awesome-leaved/icons/leavedright.png"
+theme.layout_leavedleft = "~/.config/awesome/awesome-leaved/icons/leavedleft.png"
+theme.layout_leavedbottom = "~/.config/awesome/awesome-leaved/icons/leavedbottom.png"
+theme.layout_leavedtop = "~/.config/awesome/awesome-leaved/icons/leavedtop.png"
 
 -- End
 -----------------------------------------------------------------------------------------------------------------------
